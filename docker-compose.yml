@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  api:
+    build: api
+    environment:
+      - POSTGRES_USER=postgres_user
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=postgres_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    volumes:
+      - ./api:/code
+      - shared:/shared
+
+  database:
+    build: database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres_user
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=postgres_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  frontend:
+    build: frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # 除外
+    ports:
+      - "5173:5173"
+
+  terrible-api:
+    build: terrible-api
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./terrible-api:/code
+
+  task-queue:
+    build: task-queue
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+  worker:
+    build: worker
+    depends_on:
+      - task-queue
+    volumes:
+      - ./worker:/code
+      - shared:/shared
+
+volumes:
+  pgdata:
+  redis:
+  shared:

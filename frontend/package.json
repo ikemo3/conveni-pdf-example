@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hideki Ikemoto",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^8.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "vite": "^4.3.5"
+  }
+}
